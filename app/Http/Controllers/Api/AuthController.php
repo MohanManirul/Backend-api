@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function index(){
+        
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -75,7 +79,12 @@ class AuthController extends Controller
     public function show($id)
     {
        $user = User::find($id);
-      return send_response('Success !', $user);
+       if($user){
+        return send_response('Success !', $user);
+       }else{
+        return send_error('Data not found !');
+       }
+      
     }
 
 }
