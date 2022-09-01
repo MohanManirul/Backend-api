@@ -39,17 +39,16 @@ class AuthController extends Controller
             $user->password  = Hash::make($request->password);
             
             if($user->save()){
-                return response()->json([
-                    'status' => true,
-                    'message' => 'User registration success !',
-                    'name' => $user->name
-                ]);
+                $data = [
+                    'name' => $user->name ,
+                    'email' => $user->email 
+                ];
+                return send_response('User registration success !', $data);
             }           
 
         } catch( Exception $e){
-                return response()->json([
-                    'message' => $e->getMessage()
-                ], $e->getCode());
+            return send_error($e->getMessage(),$e->getCode());
+                
         }
     }
 
