@@ -11,8 +11,15 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
+       if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
+       
 
     }
 
@@ -20,16 +27,12 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
 
-       if($validator->fails()){
-        return response()->json([
-            'message' => 'validation error',
-            'data' => $validator->errors()
-        ] , 422);
-       }
+       if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
+       
 
        try{
 

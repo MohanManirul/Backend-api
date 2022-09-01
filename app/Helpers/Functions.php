@@ -17,6 +17,6 @@
                 'message' => $message
             ];
 
-            !empty($messages) ? $response['errors'] = $message : null ;
+            !empty($messages) ? $response['errors'] = $messages : null ;
             return response()->json([$response , $code]) ;
         }
