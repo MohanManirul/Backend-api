@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,7 +21,16 @@ class AuthController extends Controller
 
        if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
        
-
+        // receive email & password for login
+        $credentials = $request->only('email','password');
+        if(Auth::attempt($credentials)){
+            $user = Auth::user();
+            $data['name'] = $user->name;
+            $data['access_token'] = $user->createToken('accessToken')->accessToken;
+            return send_response('You are successfully logged In' , $data);
+        }else{
+            return send_error('Unauthorized', 401);
+        }
     }
 
     public function register(Request $request)
