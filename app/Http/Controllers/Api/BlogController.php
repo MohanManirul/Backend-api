@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::all();
-        return send_response('Success' , $blogs);
+        return send_response('Success' , BlogResource::collection($blogs));
     }
 
     /**
