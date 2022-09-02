@@ -88,12 +88,16 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $blog)
+    public function destroy($id)
     {
         try{
-
+            $blog = Blog::find($id);
+            if($blog){
+                    $blog->delete();
+                }
+            return send_response('Blog Deteled Successfully...', []);
         }catch(Exception $e){
-
+            return send_error('Something Wrong !', $e->getCode() );
         }
     }
 }
