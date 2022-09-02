@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
+use Exception;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -51,7 +52,7 @@ class BlogController extends Controller
     {        
        $blog = Blog::find($id);
        if($blog){
-        return send_response('Success !', $blog);
+        return send_response('Success !', new BlogResource($blog));
        }else{
         return send_error('Data not found !');
        }
@@ -89,6 +90,10 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+        try{
+
+        }catch(Exception $e){
+
+        }
     }
 }
