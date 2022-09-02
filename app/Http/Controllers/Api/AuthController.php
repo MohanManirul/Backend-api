@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function index(){
-        
+    public function index()
+    {
+        $user = User::all();
+        return send_response('Success !', $user);
     }
 
     public function login(Request $request)
