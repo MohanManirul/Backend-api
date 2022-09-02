@@ -15,7 +15,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        //
+        $blogs = Blog::all();
+        return send_response('Success' , $blogs);
     }
 
     /**
@@ -45,9 +46,15 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show(Blog $blog)
-    {
-        //
+    public function show($id)
+    {        
+       $blog = Blog::find($id);
+       if($blog){
+        return send_response('Success !', $blog);
+       }else{
+        return send_error('Data not found !');
+       }
+      
     }
 
     /**
