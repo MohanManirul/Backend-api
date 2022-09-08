@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
@@ -17,7 +18,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::orderBy('id', 'desc')->get();
         return send_response('Success' , BlogResource::collection($blogs));
     }
 
@@ -39,7 +40,27 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|min:10|max:255',
+            'description' => 'required|min:20',
+        ]);
+
+       if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
+       
+
+       try{
+            $blog = Blog::create([
+                "title"  => $request->title,
+                "description"  => $request->description
+            ]);          
+            
+            return send_response('blog Create success !', new BlogResource($blog) );
+                     
+
+        } catch( Exception $e){
+            return send_error($e->getMessage(),$e->getCode());
+                
+        }
     }
 
     /**
@@ -54,7 +75,7 @@ class BlogController extends Controller
        if($blog){
         return send_response('Success !', new BlogResource($blog));
        }else{
-        return send_error('Data not found !');
+        return send_error('blog not found !');
        }
       
     }
@@ -79,7 +100,25 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|min:10|max:255',
+            'description' => 'required|min:20',
+        ]);
+
+       if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
+       
+
+       try{
+            $blog->title  = $request->title;
+            $blog->description  = $request->description;                        
+            $blog->save();
+            return send_response('blog updated success !', new BlogResource($blog) );
+                     
+
+        } catch( Exception $e){
+            return send_error($e->getMessage(),$e->getCode());
+                
+        }
     }
 
     /**
