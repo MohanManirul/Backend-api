@@ -20,5 +20,3 @@
             !empty($messages) ? $response['errors'] = $messages : null ;
             return response()->json($response , $code) ;
         }
-
-    }
