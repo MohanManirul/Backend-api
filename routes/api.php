@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function(){
     Route::post('/register', [AuthController::class, 'register']);
 
     Route::get('/login' , function(){
-        return response()->json(['message' => 'Unauthorized Access'], 401);
+        return response()->json(['message' => 'Unauthorized gf Access'], 401);
     })->name('login');
     Route::middleware('auth:api')->group(function(){
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function(){
         
         //Blog Controller Api
         Route::resource('blogs', BlogController::class)->except('create','edit');
+        Route::post('/update', [AuthController::class, 'update']); 
     });
     
 });
