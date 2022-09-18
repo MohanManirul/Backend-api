@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function(){
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+    Route::resource('blogs', BlogController::class)->except('create','edit');
 
     Route::get('/login' , function(){
         return response()->json(['message' => 'Unauthorized gf Access'], 401);
@@ -33,7 +34,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/users/{id}', [AuthController::class, 'show']);
         
         //Blog Controller Api
-        Route::resource('blogs', BlogController::class)->except('create','edit');
+        
         Route::post('/update', [AuthController::class, 'update']); 
     });
     
