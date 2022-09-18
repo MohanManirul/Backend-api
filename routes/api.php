@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function(){
         
         //Blog Controller Api
         
+        Route::post('/update', [AuthController::class, 'update']); 
     });
     
 });
