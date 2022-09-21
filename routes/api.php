@@ -34,7 +34,6 @@ Route::prefix('v1')->group(function(){
         Route::get('/users/{id}', [AuthController::class, 'show']);
         
         //Blog Controller Api
-        Route::post('/update', [AuthController::class, 'update']); 
 
     });
     
