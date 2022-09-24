@@ -105,7 +105,9 @@ class AuthController extends Controller
 
     public function update(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            "image" => "image",            
+        ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
