@@ -140,11 +140,11 @@ class AuthController extends Controller
     public function imageUpload(Request $request){
             $file_upload  =  new FileUpload();
             // upload image
-            if ($request->image) {
+            if ($request->file()) {
                 if (File::exists('images/' . $file_upload->image)) {
                     File::delete('images/' . $file_upload->image);
                 }
-                $image = $request->file('image');
+                $image = $request->file('file');
                 $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
                 $location = public_path('images/' . $img);
                 Image::make($image)->save($location);
