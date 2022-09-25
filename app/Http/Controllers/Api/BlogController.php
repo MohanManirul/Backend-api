@@ -18,7 +18,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-       
+        $blogs = Blog::orderBy('id', 'desc')->get();
+        return send_response('Success' , BlogResource::collection($blogs));
     }
 
     /**
