@@ -24,7 +24,7 @@ Route::prefix('v1')->group(function(){
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::resource('blogs', BlogController::class)->except('create','edit');
-
+    Route::post('/imageUpload', [AuthController::class, 'imageUpload']);
     Route::get('/login' , function(){
         return response()->json(['message' => 'Unauthorized Access'], 401);
     })->name('login');

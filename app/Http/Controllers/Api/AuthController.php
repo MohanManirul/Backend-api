@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\FileUpload;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -134,5 +135,26 @@ class AuthController extends Controller
             }
         }
     }
+
+    // imageUpload method start
+    public function imageUpload(Request $request){
+            $file_upload  =  new FileUpload();
+            // upload image
+            if ($request->image) {
+                if (File::exists('images/' . $file_upload->image)) {
+                    File::delete('images/' . $file_upload->image);
+                }
+                $image = $request->file('image');
+                $img = time() . Str::random(12) . '.' . $image->getClientOriginalExtension();
+                $location = public_path('images/' . $img);
+                Image::make($image)->save($location);
+                $file_upload->image = $img;
+            }
+            //upload image
+            if ($file_upload->save()) {
+                return response()->json(['success' => 'Profile Information Updated Successfully'], 200);
+            }
+    }
+    // imageUpload method ends
 
 }
