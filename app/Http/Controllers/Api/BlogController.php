@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use Exception;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
@@ -46,20 +46,20 @@ class BlogController extends Controller
         ]);
 
        if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
-       
+
 
        try{
             $blog = Blog::create([
                 "title"  => $request->title,
                 "description"  => $request->description
-            ]);          
-            
+            ]);
+
             return send_response('blog Create success !', new BlogResource($blog) );
-                     
+
 
         } catch( Exception $e){
             return send_error($e->getMessage(),$e->getCode());
-                
+
         }
     }
 
@@ -70,14 +70,14 @@ class BlogController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {        
+    {
        $blog = Blog::find($id);
        if($blog){
         return send_response('Success !', new BlogResource($blog));
        }else{
         return send_error('blog not found !');
        }
-      
+
     }
 
     /**
@@ -106,18 +106,18 @@ class BlogController extends Controller
         ]);
 
        if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
-       
+
 
        try{
             $blog->title  = $request->title;
-            $blog->description  = $request->description;                        
+            $blog->description  = $request->description;
             $blog->save();
             return send_response('blog updated success !', new BlogResource($blog) );
-                     
+
 
         } catch( Exception $e){
             return send_error($e->getMessage(),$e->getCode());
-                
+
         }
     }
 

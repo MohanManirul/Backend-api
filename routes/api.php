@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function(){
     Route::post('/register', [AuthController::class, 'register']);
     Route::resource('blogs', BlogController::class)->except('create','edit');
     Route::post('/imageUpload', [AuthController::class, 'imageUpload']);
-    Route::post('/imageShow', [AuthController::class, 'imageShow']);
+    Route::get('/imageShow', [AuthController::class, 'imageShow']);
     Route::get('/login' , function(){
         return response()->json(['message' => 'Unauthorized Access'], 401);
     })->name('login');
@@ -33,10 +33,10 @@ Route::prefix('v1')->group(function(){
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/users', [AuthController::class, 'index']);
         Route::get('/users/{id}', [AuthController::class, 'show']);
-        
+
         //Blog Controller Api
-        
-        Route::post('/update', [AuthController::class, 'update']); 
+
+        Route::post('/update', [AuthController::class, 'update']);
     });
-    
+
 });

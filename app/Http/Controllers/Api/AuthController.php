@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ImageResourceCollection;
 use App\Models\FileUpload;
 use App\Models\User;
 use Exception;
@@ -30,7 +31,7 @@ class AuthController extends Controller
         ]);
 
        if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
-       
+
         // receive email & password for login
         $credentials = $request->only('email','password');
         if(Auth::attempt($credentials)){
@@ -52,7 +53,7 @@ class AuthController extends Controller
         ]);
 
        if($validator->fails()) return send_error('Validation error', $validator->errors() , 422);
-       
+
 
        try{
 
@@ -75,14 +76,14 @@ class AuthController extends Controller
             if($user->save()){
                 $data = [
                     'name' => $user->name ,
-                    'email' => $user->email 
+                    'email' => $user->email
                 ];
                 return send_response('User registration success !', $data);
-            }           
+            }
 
         } catch( Exception $e){
             return send_error($e->getMessage(),$e->getCode());
-                
+
         }
     }
 
@@ -101,13 +102,13 @@ class AuthController extends Controller
        }else{
         return send_error('Data not found !');
        }
-      
+
     }
 
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "image" => "image",            
+            "image" => "image",
         ]);
 
         if ($validator->fails()) {
@@ -156,5 +157,16 @@ class AuthController extends Controller
             }
     }
     // imageUpload method ends
+
+    //show images function starts
+    public function imageShow(){
+        $images = FileUpload::select('id','image')->get();
+            return response()->json([
+                'status' => 'success',
+                'body' => new ImageResourceCollection($images)
+            ], 200);
+
+    }
+    //show images function ends
 
 }
